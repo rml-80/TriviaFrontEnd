@@ -1,0 +1,62 @@
+﻿@using TriviaFrontend.Models
+@inject HttpClient Http
+@using Newtonsoft.Json
+@inject NavigationManager NV
+<h3>StartPage</h3>
+<div>
+    <h4>How many questions do you like to take?</h4>
+    <h6>Max 50</h6>
+    <input type="number" @onchange="@setNumberOfQuestions" />
+</div>
+<h4>Select a category</h4>
+<h6>Max 1</h6>
+
+<div style="border:solid grey 2px">
+    @foreach (var item in cat)
+    {
+        <input type="button" value="@item.Name" @onclick="() => setId(item.ID)" />
+    }
+</div>
+
+<input type="button" value="Start" @onclick="@Start" />
+<div>
+    <h5>You have choosen:</h5>
+    <h5>Questions: @NumberOfQuestions</h5>
+    <h5>Category: @CategoryName</h5>
+
+</div>
+@code {
+    public List<TriviaCategories> cat = new List<TriviaCategories>();
+    public int CategoryID { get; set; }
+    public int NumberOfQuestions { get; set; }
+    public string CategoryName { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var jsonCategories = await Http.GetStringAsync("https://localhost:44321/api/Response/categories");
+        cat = JsonConvert.DeserializeObject<List<TriviaCategories>>(jsonCategories);
+    }
+
+    public void setId(int id)
+    {
+        CategoryID = id;
+        var temp = cat.FirstOrDefault(x => x.ID == id);
+        CategoryName = temp.Name;
+    }
+    void setNumberOfQuestions(ChangeEventArgs args)
+    {
+        NumberOfQuestions = Convert.ToInt32(args.Value);
+    }
+    void Start()
+    {
+        if (CategoryID == 0)
+        {
+            NV.NavigateTo($"/questions/{NumberOfQuestions}");
+
+        }
+        else
+        {
+            NV.NavigateTo($"/questions/{CategoryID}/{NumberOfQuestions}");
+        }
+    }
+}
