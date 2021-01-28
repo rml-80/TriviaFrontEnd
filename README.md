@@ -11,7 +11,7 @@ Frontend to Trivia application
   
   A simple FrontEnd Application in Blazor. Gets data from [TrivaBackend](https://github.com/rml-80/Triviabackend).
 
-    You can choose how mwny questions you want to do. min = 1, max = 50. From all categories or a single category.
+    You can choose how many questions you want to do. min = 1, max = 50. From all categories or a single category.
     You answer the questions and check if they correct.
     
     Your answer is stored in a propertiy in the question object.
