@@ -1,9 +1,8 @@
 ﻿@page "/questions/{numberOfQuestions:int}"
 @inject HttpClient Http
+@inject NavigationManager NM
 @using Newtonsoft.Json
 @using TriviaFrontend.Models
-@using System.Runtime.Caching
-
 
 <h3>Questions</h3>
 @if (question == null)
@@ -15,14 +14,13 @@ else
     foreach (var item in question)
     {
         <div class="card">
-            <h4>Question: @item.QuestionNo</h4>
-            <h4>Diffficulty: @item.Difficulty</h4>
-            <h4>Category: @item.Category</h4>
+            <h5>Question: @item.QuestionNo</h5>
+            <h5>Diffficulty: @item.Difficulty</h5>
+            <h5>Category: @item.Category</h5>
             <h4>Question: @item.QuestionTxt</h4>
             <form>
                 @if (!Corrected)
                 {
-
                     @foreach (var items in @item.Alternatives)
                     {
                         <input type="radio" name="alt" value="@items" @onchange="(e => selectedAnswer(e,item.QuestionNo))" />
@@ -30,38 +28,54 @@ else
                     }
                 }
             </form>
-
             @if (Corrected)
             {
-                <h4>Your answer: @item.Answer</h4>
-                <h4>Correct answer: @item.CorrectAnswer</h4>
+                <h5>Your answer: @item.Answer</h5>
+                <h5>Correct answer: @item.CorrectAnswer</h5>
             }
         </div>
     }
-    <button @onclick="@checkAnswer">Check answers</button>
+    @if (Corrected)
+    {
+        <h5>You got @CorrectAnswers of @numberOfQuestions</h5>
+        <input type="button" value="Finish" @onclick="@reset" />
+    }
+    else
+    {
+        <button @onclick="@checkAnswer">Check answers</button>
+    }
 }
 @code {
-    [Parameter]
-    public int numberOfQuestions { get; set; }
+    [Parameter] public int numberOfQuestions { get; set; }
 
     public List<Question> question { get; set; }
-    public string jsonCategories { get; set; } = string.Empty;
-    public int CorrectAnswers { get; set; }
+
     public bool Corrected { get; set; } = false;
+
+    public int CorrectAnswers { get; set; }
+
+    public string jsonCategories { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        jsonCategories = await Http.GetStringAsync($"https://localhost:44321/api/Response/{numberOfQuestions}");
-        question = JsonConvert.DeserializeObject<List<Question>>(jsonCategories);
+        using var httpResponse = await Http.GetAsync($"https://localhost:44321/api/Response/{numberOfQuestions}");
+        if (!httpResponse.IsSuccessStatusCode || numberOfQuestions == 0)
+        {
+            string errorMessage = httpResponse.ReasonPhrase;
+            NM.NavigateTo("/errorpage");
+        }
+        else
+        {
+            jsonCategories = await httpResponse.Content.ReadAsStringAsync();
+            question = JsonConvert.DeserializeObject<List<Question>>(jsonCategories);
+        }
     }
-
     void selectedAnswer(ChangeEventArgs args, object sender)
     {
         var ans = args.Value.ToString();
         var temp = question.FirstOrDefault(x => x.QuestionNo.Equals(Convert.ToInt32(sender)));
         temp.Answer = ans;
     }
-
     private void checkAnswer()
     {
         foreach (var field in question)
@@ -73,5 +87,8 @@ else
         }
         Corrected = true;
     }
-
+    private void reset()
+    {
+        NM.NavigateTo("/");
+    }
 }

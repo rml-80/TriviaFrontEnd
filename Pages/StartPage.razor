@@ -1,46 +1,65 @@
-﻿@using TriviaFrontend.Models
-@inject HttpClient Http
+﻿@inject HttpClient Http
+@inject NavigationManager NM
+
 @using Newtonsoft.Json
-@inject NavigationManager NV
-<h3>StartPage</h3>
+@using TriviaFrontend.Models
+
 <div>
     <h4>How many questions do you like to take?</h4>
     <h6>Max 50</h6>
-    <input type="number" @onchange="@setNumberOfQuestions" />
+    <input type="number" min="1" max="50" value="@NumberOfQuestions" @onchange="@setNumberOfQuestions" />
 </div>
-<h4>Select a category</h4>
-<h6>Max 1</h6>
+<br />
+<h6>Select a category if you want</h6>
+<h5>Select a category</h5>
+<h6>Select 1</h6>
 
 <div style="border:solid grey 2px">
-    @foreach (var item in cat)
+    @if (categories == null)
     {
-        <input type="button" value="@item.Name" @onclick="() => setId(item.ID)" />
+        <h5>Loading....</h5>
+    }
+    else
+    {
+        @foreach (var item in categories)
+        {
+//Change background color of seleted
+//this way it creates a duplicated button
+            @*@if (item.ID == CategoryID)
+            {
+                <input type="button" style="background-color:darkgrey" value="@item.Name" @onclick="() => setId(item.ID)" />
+            }*@
+            <input type="button" value="@item.Name" @onclick="() => setId(item.ID)" />
+        }
     }
 </div>
-
 <input type="button" value="Start" @onclick="@Start" />
-<div>
-    <h5>You have choosen:</h5>
-    <h5>Questions: @NumberOfQuestions</h5>
-    <h5>Category: @CategoryName</h5>
-
-</div>
 @code {
-    public List<TriviaCategories> cat = new List<TriviaCategories>();
+    public List<TriviaCategories> categories = new List<TriviaCategories>();
+
     public int CategoryID { get; set; }
-    public int NumberOfQuestions { get; set; }
+    public int NumberOfQuestions { get; set; } = 10;
+
     public string CategoryName { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var jsonCategories = await Http.GetStringAsync("https://localhost:44321/api/Response/categories");
-        cat = JsonConvert.DeserializeObject<List<TriviaCategories>>(jsonCategories);
+        using var httpResponse = await Http.GetAsync($"https://localhost:44321/api/Response/categories");
+        if (!httpResponse.IsSuccessStatusCode)
+        {
+            string errorMessage = httpResponse.ReasonPhrase;
+            NM.NavigateTo("/errorpage");
+        }
+        else
+        {
+            var jsonCategories = await httpResponse.Content.ReadAsStringAsync();
+            categories = JsonConvert.DeserializeObject<List<TriviaCategories>>(jsonCategories);
+        }
     }
-
     public void setId(int id)
     {
         CategoryID = id;
-        var temp = cat.FirstOrDefault(x => x.ID == id);
+        var temp = categories.FirstOrDefault(x => x.ID == id);
         CategoryName = temp.Name;
     }
     void setNumberOfQuestions(ChangeEventArgs args)
@@ -51,12 +70,14 @@
     {
         if (CategoryID == 0)
         {
-            NV.NavigateTo($"/questions/{NumberOfQuestions}");
-
+            NM.NavigateTo($"/questions/{NumberOfQuestions}");
         }
         else
         {
-            NV.NavigateTo($"/questions/{CategoryID}/{NumberOfQuestions}");
+            NM.NavigateTo($"/questions/{CategoryID}/{NumberOfQuestions}");
         }
+    }
+    private void ifSelected()
+    { 
     }
 }

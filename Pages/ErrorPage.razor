@@ -1,0 +1,11 @@
+﻿@page "/errorpage"
+@inject NavigationManager NM
+<h3>ErrorPage</h3>
+<h4>Something went wrong!</h4>
+<input type="button" value="Try again" @onclick="@ToIndex">
+@code {
+    void ToIndex()
+    {
+        NM.NavigateTo("/");
+    }
+}
