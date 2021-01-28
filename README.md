@@ -1,5 +1,5 @@
-# TriviaFrontend
-Frontend to Trivia application
+# TriviaFrontEnd
+FrontEnd to Trivia application
 
 ## Nuget packeges to used / to be installed
   1. Microsoft.AspNetCore.Components.WebAssembly [Link](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly/5.0.2?_src=template)
