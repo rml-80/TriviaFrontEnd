@@ -23,14 +23,22 @@
     {
         @foreach (var item in categories)
         {
-//Change background color of seleted
-//this way it creates a duplicated button
-            @*@if (item.ID == CategoryID)
-            {
-                <input type="button" style="background-color:darkgrey" value="@item.Name" @onclick="() => setId(item.ID)" />
-            }*@
             <input type="button" value="@item.Name" @onclick="() => setId(item.ID)" />
         }
+    }
+</div>
+<div>
+    <br />
+    <h5>You have choices:</h5>
+    <h6>Number of questions: @NumberOfQuestions</h6>
+    @if (CategoryName == null)
+    {
+
+    <h6>Category: All</h6>
+    }
+    else
+    {
+<h6>Category: @CategoryName</h6>
     }
 </div>
 <input type="button" value="Start" @onclick="@Start" />
@@ -56,6 +64,8 @@
             categories = JsonConvert.DeserializeObject<List<TriviaCategories>>(jsonCategories);
         }
     }
+
+
     public void setId(int id)
     {
         CategoryID = id;
@@ -78,6 +88,6 @@
         }
     }
     private void ifSelected()
-    { 
+    {
     }
 }

@@ -10,8 +10,6 @@ namespace TriviaFrontend.Models
     {
         [JsonProperty("category")]
         public string Category { get; set; }
-        //[JsonProperty("type")]
-        //public string Type { get; set; }
         [JsonProperty("difficulty")]
         public string Difficulty { get; set; }
         [JsonProperty("question")]
