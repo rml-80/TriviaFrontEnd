@@ -9,7 +9,7 @@ Frontend to Trivia application
   
 ## What does it do?
   
-  A simple FrontEnd Application in Blazor. Gets data from [TrivaBackend](https://github.com/rml-80/Triviabackend).
+  A simple FrontEnd Application in Blazor WebAssembly. Gets data from [TrivaBackend](https://github.com/rml-80/Triviabackend).
 
     You can choose how many questions you want to do. min = 1, max = 50. From all categories or a single category.
     You answer the questions and check if they correct.
