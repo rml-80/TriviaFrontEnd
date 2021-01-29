@@ -16,7 +16,6 @@ namespace TriviaFrontend.Models
         public string QuestionTxt { get; set; }
         [JsonProperty("correctanswer")]
         public string CorrectAnswer { get; set; }
-
         [JsonProperty("alternatives")]
         public List<string> Alternatives { get; set; }
         [JsonProperty("questionNo")]

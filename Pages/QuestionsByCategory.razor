@@ -75,9 +75,9 @@ else
     }
     private void selectedAnswer(ChangeEventArgs args, object sender)
     {
-        var ans = args.Value.ToString();
+        var answer = args.Value.ToString();
         var temp = question.FirstOrDefault(x => x.QuestionNo.Equals(Convert.ToInt32(sender)));
-        temp.Answer = ans;
+        temp.Answer = answer;
     }
     private void checkAnswer()
     {

@@ -34,11 +34,11 @@
     @if (CategoryName == null)
     {
 
-    <h6>Category: All</h6>
+        <h6>Category: All</h6>
     }
     else
     {
-<h6>Category: @CategoryName</h6>
+        <h6>Category: @CategoryName</h6>
     }
 </div>
 <input type="button" value="Start" @onclick="@Start" />
@@ -64,8 +64,6 @@
             categories = JsonConvert.DeserializeObject<List<TriviaCategories>>(jsonCategories);
         }
     }
-
-
     public void setId(int id)
     {
         CategoryID = id;
@@ -86,8 +84,5 @@
         {
             NM.NavigateTo($"/questions/{CategoryID}/{NumberOfQuestions}");
         }
-    }
-    private void ifSelected()
-    {
     }
 }
