@@ -1,6 +1,9 @@
 # TriviaFrontEnd
 FrontEnd to Trivia application
 
+Built with Blazor WebAssablly in Visual Studio.
+TrivaBackEnd must be running in order to this to function.
+
 ## Nuget packeges to used / to be installed
   1. Microsoft.AspNetCore.Components.WebAssembly [Link](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly/5.0.2?_src=template)
   2. Microsoft.AspNetCore.Components.WebAssembly.Authentication [Link](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Authentication/5.0.2?_src=template) Not configured
