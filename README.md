@@ -2,7 +2,7 @@
 FrontEnd to Trivia application
 
 Built with Blazor WebAssablly in Visual Studio.
-TrivaBackEnd must be running in order to this to function.
+[TrivaBackEnd](https://github.com/rml-80/Triviabackend) must be running in order to this to function.
 
 ## Nuget packeges to used / to be installed
   1. Microsoft.AspNetCore.Components.WebAssembly [Link](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly/5.0.2?_src=template)
@@ -12,7 +12,7 @@ TrivaBackEnd must be running in order to this to function.
   
 ## What does it do?
   
-  A simple FrontEnd Application in Blazor WebAssembly. Gets data from [TrivaBackend](https://github.com/rml-80/Triviabackend).
+  A simple FrontEnd Application in Blazor WebAssembly. Gets data from [TrivaBackEnd](https://github.com/rml-80/Triviabackend).
 
     You can choose how many questions you want to do. min = 1, max = 50. From all categories or a single category.
     You answer the questions and check if they correct.
