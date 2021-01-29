@@ -10,7 +10,7 @@ Built with Blazor WebAssablly in Visual Studio.
 	It will open in Visual Studio
 	Nuget packeges will be installed
     If not install below noted packages
-    Make sure you have started [TrivaBackEnd](https://github.com/rml-80/Triviabackend)
+    Make sure you have started TrivaBackEnd
     Press F5 to run
   
 ## Nuget packeges to used / to be installed
